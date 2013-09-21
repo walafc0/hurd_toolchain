@@ -1,0 +1,23 @@
+#!/bin/bash
+
+XZUTILS_VER=4.999.9beta
+
+cd $BUILD_DIR
+rm -rf xz-$XZUTILS_VER
+tar -xf $SOURCE_DIR/xz-$XZUTILS_VER.tar.gz
+
+sed -i "s#__MACH__#__OSX__#" xz-$XZUTILS_VER/src/liblzma/check/crc{32,64}_x86.S
+
+rm -rf xz-utils-build
+mkdir -p xz-utils-build
+cd xz-utils-build
+
+../xz-$XZUTILS_VER/configure \
+    --host=$TARGET \
+    --prefix= \
+    --enable-dynamic \
+    --disable-rpath
+
+make DESTDIR=$HURD_DIR install
+
+cd $ROOT

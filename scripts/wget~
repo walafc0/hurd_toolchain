@@ -1,0 +1,16 @@
+#!/bin/bash
+
+cd $BUILD_DIR
+rm -rf wget-$WGET_VER
+tar -xf $SOURCE_DIR/wget-$WGET_VER.tar.bz2
+
+rm -rf wget-build
+mkdir -p wget-build
+cd wget-build
+
+../wget-$WGET_VER/configure \
+  --host=$TARGET \
+  --prefix=/
+make DESTDIR=$HURD_DIR install
+
+cd $ROOT

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+cd $BUILD_DIR
+rm -rf gawk-$GAWK_VER
+tar -xf $SOURCE_DIR/gawk-$GAWK_VER.tar.gz
+
+rm -rf gawk-build
+mkdir -p gawk-build
+cd gawk-build
+
+../gawk-$GAWK_VER/configure \
+    --host=$TARGET \
+    --prefix= \
+    --disable-libsigsegv
+make DESTDIR=$HURD_DIR install
+
+cd $ROOT

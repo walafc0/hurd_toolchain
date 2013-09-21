@@ -1,0 +1,21 @@
+#!/bin/bash
+
+cd $BUILD_DIR
+rm -rf binutils-$BINUTILS_VER
+tar -xf $SOURCE_DIR/binutils-$BINUTILS_VER.tar.bz2
+
+rm -rf binutils-build
+mkdir -p binutils-build
+cd binutils-build
+
+../binutils-$BINUTILS_VER/configure \
+  --prefix= \
+  --host=$TARGET \
+  --disable-nls \
+  --enable-shared --disable-multilib
+
+make configure-host
+make
+make DESTDIR=$HURD_DIR install
+
+cd $ROOT

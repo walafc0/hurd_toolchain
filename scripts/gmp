@@ -1,0 +1,22 @@
+#!/bin/bash
+
+cd $BUILD_DIR
+rm -rf gmp-$GMP_VER
+tar -xf $SOURCE_DIR/gmp-$GMP_VER.tar.bz2
+
+rm -rf gmp-build
+mkdir -p gmp-build
+cd gmp-build
+
+HOST_CC=gcc \
+CFLAGS="-march=i586 -mtune=generic" \
+CPPFLAGS="-fexceptions -march=i586 -mtune=generic" \
+../gmp-$GMP_VER/configure \
+  --host=$TARGET \
+  --prefix=/ --infodir=/share/info \
+  --enable-cxx  
+
+make
+make DESTDIR=$HURD_DIR install
+
+cd $ROOT

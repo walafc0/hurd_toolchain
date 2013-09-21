@@ -1,0 +1,38 @@
+#! /bin/sh
+
+cd $BUILD_DIR
+tar -xf $SOURCE_DIR/gcc-core-$GCC_VER.tar.bz2
+tar -xf $SOURCE_DIR/gcc-g++-$GCC_VER.tar.bz2
+cd gcc-$GCC_VER
+patch -p1 < $SOURCE_DIR/patches/gcc-$GCC_VER/pr41818.diff
+patch -p2 < $SOURCE_DIR/patches/gcc-$GCC_VER/hurd-changes.diff
+
+cd $BUILD_DIR
+rm -rf cross-gcc-build
+mkdir -p cross-gcc-build
+cd cross-gcc-build
+
+../gcc-$GCC_VER/configure \
+  --target=$TARGET \
+  --prefix=$CROSS_DIR \
+  --with-sysroot=$HURD_DIR \
+  --disable-nls \
+  --disable-shared \
+  --disable-threads \
+  --without-headers \
+  --with-newlib \
+  --enable-languages=c
+
+make all-gcc 
+make install-gcc
+# for gcc>=4.3
+make all-target-libgcc 
+make install-target-libgcc
+  
+# glibc tries to link to this
+echo '/* Empty.  */' > $HURD_DIR/lib/libgcc_eh.a
+
+# prepare for pass 2
+rm -f config.status config.cache */config.cache */*/config.cache
+
+cd $ROOT

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+cd $BUILD_DIR
+rm -rf $BUILD_DIR/mig
+cp -a $SOURCE_DIR/mig .
+cd $BUILD_DIR/mig
+autoreconf -vif
+
+rm -rf $BUILD_DIR/cross-mig-build
+mkdir -p $BUILD_DIR/cross-mig-build
+cd $BUILD_DIR/cross-mig-build
+
+../mig/configure \
+  --target=$TARGET \
+  --prefix=$CROSS_DIR
+
+make all install
+
+cd $ROOT

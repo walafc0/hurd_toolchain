@@ -1,0 +1,18 @@
+#!/bin/bash
+
+cd $BUILD_DIR
+rm -rf file-$FILE_VER
+tar -xf $SOURCE_DIR/file-$FILE_VER.tar.gz
+
+patch -p0 < $SOURCE_DIR/patches/file-$FILE_VER/file-5.04-MAXPATHLEN.patch
+
+rm -rf file-build
+mkdir -p file-build
+cd file-build
+
+../file-$FILE_VER/configure \
+  --host=$TARGET \
+  --prefix=
+make DESTDIR=$HURD_DIR install
+
+cd $ROOT

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+cd $BUILD_DIR
+rm -rf bison-$BISON_VER
+tar -xf $SOURCE_DIR/bison-$BISON_VER.tar.bz2
+
+rm -rf bison-build
+mkdir -p bison-build
+cd bison-build
+
+../bison-$BISON_VER/configure \
+    --host=$TARGET \
+    --prefix= 
+    
+make
+make DESTDIR=$HURD_DIR install
+
+cd $ROOT

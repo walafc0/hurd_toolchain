@@ -1,0 +1,20 @@
+#!/bin/bash
+
+cd $BUILD_DIR
+rm -rf fakeroot-$FAKEROOT_VER
+tar -xf $SOURCE_DIR/fakeroot_$FAKEROOT_VER.tar.gz
+
+rm -rf fakeroot-build
+mkdir -p fakeroot-build
+cd fakeroot-build
+
+../fakeroot-$FAKEROOT_VER/configure \
+  --prefix= \
+  --libdir=/lib/libfakeroot \
+  --disable-static \
+  --with-ipc=sysv \
+  --host=$TARGET
+
+make DESTDIR=$HURD_DIR install
+
+cd $ROOT

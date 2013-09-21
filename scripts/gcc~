@@ -1,0 +1,45 @@
+#!/bin/bash
+
+cd $BUILD_DIR
+#rm -rf gcc-$GCC_VER
+#tar -xf $SOURCE_DIR/gcc-core-$GCC_VER.tar.bz2
+#tar -xf $SOURCE_DIR/gcc-g++-$GCC_VER.tar.bz2
+cd gcc-$GCC_VER
+#patch -p1 < $SOURCE_DIR/patches/gcc-4.4.2/pr41818.diff
+#patch -p1 < $SOURCE_DIR/patches/gcc-4.4.2/wootpatch.diff
+cp -v gcc/Makefile.in{,.orig}
+sed -e 's@\(^NATIVE_SYSTEM_HEADER_DIR =\).*@\1 $HURD_DIR/include@g' \
+    gcc/Makefile.in.orig > gcc/Makefile.in
+
+cd $BUILD_DIR
+rm -rf gcc-build
+mkdir -p gcc-build
+cd gcc-build
+
+../gcc-$GCC_VER/configure \
+    --host=$TARGET --target=$TARGET --build=$HOST \
+    --prefix= --with-local-prefix=$HURD_DIR \
+    --with-cloog=$HURD_DIR --with-ppl=$HURD_DIR --with-gmp=$HURD_DIR \
+    --with-mpfr=$HURD_DIR--enable-long-long --enable-c99 \
+    --enable-shared --enable-threads=posix --enable-__cxa_atexit \
+    --disable-nls --enable-languages=c,c++ --disable-libstdcxx-pch \
+    --disable-multilib
+
+
+make configure-gcc
+cd gcc
+make SYSTEM_HEADER_DIR=$HURD_DIR/include
+cd ..
+make DESTDIR=$HURD_DIR install-gcc
+
+ln -s $BUILD_DIR/gcc-$GCC_VER/libdecnumber/dpd $BUILD_DIR/gcc-$GCC_VER/libdecnumber/no
+make all-target-libgcc
+make DESTDIR=$HURD_DIR install-target-libgcc
+
+#make all DESTDIR=$HURD_DIR install
+
+#make AS_FOR_TARGET="${AS}" \
+#    LD_FOR_TARGET="${LD}"
+#make DESTDIR=$HURD_DIR install
+
+cd $ROOT

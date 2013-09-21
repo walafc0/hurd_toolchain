@@ -1,0 +1,24 @@
+#!/bin/bash
+
+cd $SOURCE_DIR
+if [ ! -f make-$MAKE_VER.tar.bz2 ]; then
+  wget ftp://ftp.gnu.org/gnu/make/make-$MAKE_VER.tar.bz2
+fi
+
+cd $BUILD_DIR
+rm -rf make-$MAKE_VER
+tar -xf $SOURCE_DIR/make-$MAKE_VER.tar.bz2
+
+rm -rf make-build
+mkdir -p make-build
+cd make-build
+
+../make-$MAKE_VER/configure \
+    --host=$TARGET \
+    --prefix= 
+
+make DESTDIR=$HURD_DIR install
+
+cd $ROOT
+
+

@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# NOTE: using source from gnumach-headers with clean build directory
+
+cd $BUILD_DIR
+rm -rf $BUILD_DIR/gnumach
+cp -a $SOURCE_DIR/gnumach .
+cd $BUILD_DIR/gnumach
+autoreconf -vif
+
+rm -rf $BUILD_DIR/gnumach-build
+mkdir -p $BUILD_DIR/gnumach-build
+cd $BUILD_DIR/gnumach-build
+  
+../gnumach/configure \
+  --build=$HOST \
+  --enable-kdb \
+  --host=$TARGET \
+  --prefix=
+  
+make DESTDIR=$HURD_DIR install
+
+cd $ROOT

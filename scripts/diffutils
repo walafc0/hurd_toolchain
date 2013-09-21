@@ -1,0 +1,25 @@
+#!/bin/bash
+
+cd $SOURCE_DIR
+if [ ! -f diffutils-$DIFF_VER.tar.xz ]; then
+  wget ftp://ftp.gnu.org/gnu/diffutils/diffutils-$DIFF_VER.tar.xz
+fi
+
+cd $BUILD_DIR
+rm -rf diffutils-$DIFF_VER
+tar -xf $SOURCE_DIR/diffutils-$DIFF_VER.tar.xz
+
+rm -rf diffutils-build
+mkdir -p diffutils-build
+cd diffutils-build
+
+../diffutils-$DIFF_VER/configure \
+    --host=$TARGET \
+    --prefix= 
+    
+make DESTDIR=$HURD_DIR install
+
+cd $ROOT
+
+
+

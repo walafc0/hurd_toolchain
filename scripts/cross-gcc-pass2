@@ -1,0 +1,22 @@
+#! /bin/sh
+
+# Note: using source and build directories from pass1
+
+cd $BUILD_DIR/cross-gcc-build
+
+../gcc-$GCC_VER/configure \
+  --target=$TARGET \
+  --prefix=$CROSS_DIR \
+  --with-sysroot=$HURD_DIR \
+  --disable-nls \
+  --enable-threads=posix \
+  --enable-languages=c,c++
+
+make all
+
+# clean up files installed in pass 1
+rm -f $HURD_DIR/lib/libgcc_eh.a $CROSS_DIR/lib/gcc/$TARGET/$GCC_VER/{libgcc.a,libgcov.a}
+
+make install
+
+cd $ROOT

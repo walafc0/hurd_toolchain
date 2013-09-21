@@ -1,0 +1,27 @@
+#!/bin/bash
+
+cd $BUILD_DIR
+rm -rf flex-$FLEX_VER
+tar -xf $SOURCE_DIR/flex-$FLEX_VER.tar.bz2
+
+cd flex-$FLEX_VER
+patch -Np1 -i $SOURCE_DIR/patches/flex-$FLEX_VER/flex-2.5.35-gcc44.patch
+cd ..
+
+rm -rf flex-build
+mkdir -p flex-build
+cd flex-build
+
+../flex-$FLEX_VER/configure \
+    --host=$TARGET \
+    --prefix= 
+
+
+sed -i 's@\#define malloc.*@/* & */@g' config.h
+sed -i 's@\#define realloc.*@/* & */@g' config.h
+
+
+make
+make DESTDIR=$HURD_DIR install
+
+cd $ROOT

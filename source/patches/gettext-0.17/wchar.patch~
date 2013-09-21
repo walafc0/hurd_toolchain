@@ -1,0 +1,24 @@
+diff --git a/lib/wchar.in.h b/lib/wchar.in.h
+index 924a338..d7a1b5d 100644
+--- a/gnulib-lib/wchar.in.h
++++ b/gnulib-lib/wchar.in.h
+@@ -26,6 +26,14 @@
+  * the declaration of wcwidth().
+  */
+ 
++#ifdef __need_mbstate_t
++/* Special invocation convention inside glibc header files.  */
++
++# @INCLUDE_NEXT@ @NEXT_WCHAR_H@
++
++#else
++/* Normal invocation convention.  */
++
+ #ifndef _GL_WCHAR_H
+ 
+ /* Tru64 with Desktop Toolkit C has a bug: <stdio.h> must be included before
+@@ -80,3 +88,4 @@ extern int wcwidth (int /* actually wchar_t */);
+ 
+ #endif /* _GL_WCHAR_H */
+ #endif /* _GL_WCHAR_H */
++#endif

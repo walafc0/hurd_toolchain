@@ -1,0 +1,24 @@
+#!/bin/bash
+
+cd $BUILD_DIR
+rm -rf ncurses-$NCURSES_VER
+tar -xf $SOURCE_DIR/ncurses-$NCURSES_VER.tar.gz
+
+rm -rf ncurses-build
+mkdir -p ncurses-build
+cd ncurses-build
+
+../ncurses-$NCURSES_VER/configure \
+  --host=$TARGET \
+  --prefix=/usr \
+  --mandir=/usr/share/man
+  --with-shared \
+  --with-normal \
+  --without-debug \
+  --without-ada \
+  --enable-widec
+
+make
+make DESTDIR=$HURD_DIR install
+
+cd $ROOT

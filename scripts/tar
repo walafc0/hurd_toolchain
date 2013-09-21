@@ -1,0 +1,24 @@
+#!/bin/bash
+
+cd $SOURCE_DIR
+if [ ! -f tar-$TAR_VER.tar.bz2 ]; then
+  wget ftp://ftp.gnu.org/gnu/tar/tar-$TAR_VER.tar.bz2
+fi
+
+cd $BUILD_DIR
+rm -rf tar-$TAR_VER
+tar -xf $SOURCE_DIR/tar-$TAR_VER.tar.bz2
+
+rm -rf tar-build
+mkdir -p tar-build
+cd tar-build
+
+../tar-$TAR_VER/configure \
+    --host=$TARGET \
+    --prefix= 
+
+make DESTDIR=$HURD_DIR install
+
+cd $ROOT
+
+

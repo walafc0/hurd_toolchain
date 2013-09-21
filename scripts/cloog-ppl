@@ -1,0 +1,37 @@
+#! /bin/bash
+
+
+
+#if [ -d $SOURCE_DIR/cloog-ppl ] ; then
+#  cd $SOURCE_DIR/cloog-ppl && git pull origin
+#else
+#  cd $SOURCE_DIR
+#  git clone git://repo.or.cz/cloog-ppl.git
+#fi
+
+
+cd $BUILD_DIR
+rm -rf $BUILD_DIR/cloog-ppl
+cp -a $SOURCE_DIR/cloog-ppl .
+cd $BUILD_DIR/cloog-ppl
+autoreconf -vif
+
+rm -rf $BUILD_DIR/cloog-build
+mkdir -p $BUILD_DIR/cloog-build
+cd $BUILD_DIR/cloog-build
+
+
+../cloog-ppl/configure \
+    --host=$TARGET \
+    --with-ppl=$HURD_DIR/lib \
+    --with-gmp=$HURD_DIR/lib \
+    --prefix=
+
+make DESTDIR=$HURD_DIR install
+
+
+rm $HURD_DIR/lib/libcloog.la
+
+cd $ROOT
+
+

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+cd $BUILD_DIR
+rm -rf zlib-$ZLIB_VER
+tar -xf $SOURCE_DIR/zlib-$ZLIB_VER.tar.gz
+cd zlib-$ZLIB_VER
+
+# can-not build outside source directory 
+
+configure \
+    --prefix= \
+    --shared
+make prefix=$HURD_DIR install
+
+cd $ROOT

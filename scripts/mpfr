@@ -1,0 +1,22 @@
+#!/bin/bash
+
+cd $BUILD_DIR
+rm -rf mpfr-$MPFR_VER
+tar -xf $SOURCE_DIR/mpfr-$MPFR_VER.tar.bz2
+
+rm -rf mpfr-build
+mkdir -p mpfr-build
+cd mpfr-build
+
+../mpfr-$MPFR_VER/configure \
+  --host=$TARGET \
+  --prefix= \
+  --enable-thread-safe \
+  --enable-shared
+
+make
+make DESTDIR=$HURD_DIR install
+
+rm $HURD_DIR/lib/libmpfr.la
+
+cd $ROOT

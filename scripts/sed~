@@ -1,0 +1,16 @@
+#!/bin/bash
+
+cd $BUILD_DIR
+rm -rf sed-$SED_VER
+tar -xf $SOURCE_DIR/sed-$SED_VER.tar.bz2
+
+rm -rf sed-build
+mkdir -p sed-build
+cd sed-build
+
+../sed-$SED_VER/configure \
+  --host=$TARGET \
+  --prefix=/
+make DESTDIR=$HURD_DIR install
+
+cd $ROOT

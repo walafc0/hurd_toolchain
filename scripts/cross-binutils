@@ -1,0 +1,21 @@
+#!/bin/bash
+
+cd $BUILD_DIR
+rm -rf binutils-$BINUTILS_VER
+tar -xf $SOURCE_DIR/binutils-$BINUTILS_VER.tar.bz2
+
+rm -rf cross-binutils-build
+mkdir -p cross-binutils-build
+cd cross-binutils-build
+
+../binutils-$BINUTILS_VER/configure \
+  --prefix=$CROSS_DIR \
+  --host=$HOST \
+  --target=$TARGET \
+  --with-sysroot=$HURD_DIR \
+  --disable-nls
+
+make all
+make install
+
+cd $ROOT

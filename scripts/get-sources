@@ -1,0 +1,133 @@
+#!/bin/bash
+
+source ./scripts/pkgver
+
+cd $SOURCE_DIR
+
+# bash
+wget -nc http://ftp.gnu.org/gnu/bash/bash-$BASH_VER.tar.gz
+if [ $BASH_PATCHLEVEL -gt 000 ]; then
+  for p in $(seq -w 001 $BASH_PATCHLEVEL); do
+      wget -nc http://ftp.gnu.org/gnu/bash/bash-$BASH_VER-patches/bash${BASH_VER/.}-$p
+  done
+fi
+
+# binutils
+wget -nc http://ftp.gnu.org/gnu/binutils/binutils-$BINUTILS_VER.tar.bz2
+
+# bison
+wget -nc http://ftp.gnu.org/gnu/bison/bison-$BISON_VER.tar.bz2
+
+# bzip2
+wget -nc http://www.bzip.org/$BZIP2_VER/bzip2-$BZIP2_VER.tar.gz
+
+# cloog-ppl
+wget -nc ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-ppl-$CLOOG_PPL_VER.tar.gz
+
+# coreutils
+wget -nc http://ftp.gnu.org/gnu/coreutils/coreutils-$COREUTILS_VER.tar.gz
+
+# diffutils
+wget -nc http://ftp.gnu.org/gnu/diffutils/diffutils-$DIFFUTILS_VER.tar.gz
+
+# findutils
+wget -nc http://ftp.gnu.org/gnu/findutils/findutils-$FINDUTILS_VER.tar.gz
+
+# file
+wget -nc ftp://ftp.astron.com/pub/file/file-$FILE_VER.tar.gz
+
+# flex
+wget -nc http://downloads.sourceforge.net/sourceforge/flex/flex-$FLEX_VER.tar.bz2
+
+# gawk
+wget -nc ftp://ftp.gnu.org/gnu/gawk/gawk-$GAWK_VER.tar.gz
+
+# gcc
+wget -nc http://ftp.gnu.org/gnu/gcc/gcc-$GCC_VER/gcc-core-$GCC_VER.tar.bz2
+wget -nc http://ftp.gnu.org/gnu/gcc/gcc-$GCC_VER/gcc-g++-$GCC_VER.tar.bz2
+
+# gettext
+wget -nc http://ftp.gnu.org/gnu/gettext/gettext-$GETTEXT_VER.tar.gz
+
+# glibc
+wget -nc http://ftp.gnu.org/gnu/glibc/glibc-$GLIBC_VER.tar.bz2
+
+# gmp
+wget -nc ftp://ftp.gnu.org/gnu/gmp/gmp-$GMP_VER.tar.bz2
+  
+# grep
+wget -nc ftp://ftp.gnu.org/gnu/grep/grep-$GREP_VER.tar.bz2
+
+# grub
+wget -nc ftp://alpha.gnu.org/gnu/grub/grub-$GRUB_VER.tar.gz
+
+# gzip
+wget -nc ftp://ftp.gnu.org/pub/gnu/gzip/gzip-$GZIP_VER.tar.gz
+
+# m4
+wget -nc http://ftp.gnu.org/gnu/m4/m4-$M4_VER.tar.gz
+
+# make
+wget -nc http://ftp.gnu.org/gnu/make/make-$MAKE_VER.tar.bz2
+
+# mpfr
+wget -nc http://mpfr.loria.fr/mpfr-current/mpfr-$MPFR_VER.tar.bz2
+
+# nano
+wget -nc http://www.nano-editor.org/dist/v2.2/nano-$NANO_VER.tar.gz
+
+# ncurses
+wget -nc ftp://ftp.gnu.org/pub/gnu/ncurses/ncurses-$NCURSES_VER.tar.gz
+
+# patch
+wget -nc http://ftp.gnu.org/gnu/patch/patch-$PATCH_VER.tar.gz
+
+# ppl
+wget -nc http://www.cs.unipr.it/ppl/Download/ftp/releases/$PPL_VER/ppl-$PPL_VER.tar.gz
+
+# sed
+wget -nc ftp://ftp.gnu.org/gnu/sed/sed-$SED_VER.tar.bz2
+
+# tar
+wget -nc http://ftp.gnu.org/gnu/tar/tar-$TAR_VER.tar.bz2
+
+# texinfo
+wget -nc http://ftp.gnu.org/gnu/texinfo/texinfo-$TEXINFO_VER.tar.gz
+
+# xz-utils
+wget -nc http://tukaani.org/xz/xz-$XZUTILS_VER.tar.gz
+
+# zlib
+wget -nc http://www.zlib.net/zlib-$ZLIB_VER.tar.gz
+
+# gnumach-git
+if [ -d $SOURCE_DIR/gnumach ] ; then
+  cd $SOURCE_DIR/gnumach && git pull origin
+else
+  cd $SOURCE_DIR
+  git clone git://git.sv.gnu.org/hurd/gnumach.git
+fi
+
+# hurd-git
+if [ -d $SOURCE_DIR/hurd ] ; then
+  cd $SOURCE_DIR/hurd && git pull origin
+else
+  cd $SOURCE_DIR
+  git clone git://git.sv.gnu.org/hurd/hurd.git
+fi
+
+# libpthread-git
+if [ -d $SOURCE_DIR/libpthread ] ; then
+  cd $SOURCE_DIR/libpthread && git pull origin
+else
+  cd $SOURCE_DIR
+  git clone git://git.sv.gnu.org/hurd/libpthread.git
+fi
+
+# mig-git
+if [ -d $SOURCE_DIR/mig ] ; then
+  cd $SOURCE_DIR/mig && git pull origin
+else
+  cd $SOURCE_DIR
+  git clone git://git.sv.gnu.org/hurd/mig.git
+fi

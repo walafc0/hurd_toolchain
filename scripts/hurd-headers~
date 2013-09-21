@@ -1,0 +1,30 @@
+#!/bin/bash
+
+cd $BUILD_DIR
+rm -rf $BUILD_DIR/hurd
+cp -a $SOURCE_DIR/hurd .
+cd $BUILD_DIR/hurd
+patch -p1 < $SOURCE_DIR/patches/hurd/tls_support.patch
+cp -a $SOURCE_DIR/libpthread .
+cd libpthread
+patch -p1 < $SOURCE_DIR/patches/libpthread/libpthread_fix.patch
+patch -p1 < $SOURCE_DIR/patches/libpthread/tls_support.patch
+cd ..
+autoreconf -vif
+
+rm -rf $BUILD_DIR/hurd-headers-build
+mkdir -p $BUILD_DIR/hurd-headers-build
+cd $BUILD_DIR/hurd-headers-build
+
+CC=gcc \
+../hurd/configure \
+  --host=$TARGET \
+  --prefix= \
+  --disable-profile
+  
+make prefix=$HURD_DIR no_deps=t install-headers
+  
+# prepare for libpthread build
+rm config.status
+
+cd $ROOT
