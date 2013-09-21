@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ROOT=~/archhurd/melpo/hurd
+ROOT=~/workspace/archhurd/hurd_toolchain
 HOST=x86_64-unknown-gnu
 TARGET=i586-pc-gnu
 
