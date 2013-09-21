@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ROOT=~/workspace/archhurd/hurd_toolchain
-HOST=i686-pc-gnu
+HOST=x86_64-unknown-linux-gnu
 TARGET=i586-pc-gnu
 
 # clear system variables

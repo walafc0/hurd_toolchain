@@ -12,6 +12,9 @@ rm -rf cross-gcc-build
 mkdir -p cross-gcc-build
 cd cross-gcc-build
 
+#Avoid generation of some docs (otherwise you won't compile)
+sed -i 's/BUILD_INFO=info/BUILD_INFO=/' ../gcc-$GCC_VER/gcc/configure
+
 ../gcc-$GCC_VER/configure \
   --target=$TARGET \
   --prefix=$CROSS_DIR \
@@ -23,11 +26,11 @@ cd cross-gcc-build
   --with-newlib \
   --enable-languages=c
 
-make all-gcc 
-make install-gcc
+make all-gcc all-target-libgcc
+make install-gcc install-target-libgcc
 # for gcc>=4.3
-make all-target-libgcc 
-make install-target-libgcc
+#make all-target-libgcc 
+#make install-target-libgcc
   
 # glibc tries to link to this
 echo '/* Empty.  */' > $HURD_DIR/lib/libgcc_eh.a

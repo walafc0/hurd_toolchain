@@ -8,14 +8,19 @@ rm -rf cross-binutils-build
 mkdir -p cross-binutils-build
 cd cross-binutils-build
 
+export AR=$HOST-gcc-ar
+
 ../binutils-$BINUTILS_VER/configure \
   --prefix=$CROSS_DIR \
   --host=$HOST \
   --target=$TARGET \
   --with-sysroot=$HURD_DIR \
-  --disable-nls
+  --disable-nls \
+  --disable-werror
 
 make all
 make install
+
+unset AR
 
 cd $ROOT

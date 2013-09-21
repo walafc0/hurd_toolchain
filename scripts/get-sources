@@ -131,3 +131,5 @@ else
   cd $SOURCE_DIR
   git clone git://git.sv.gnu.org/hurd/mig.git
 fi
+
+cd $ROOT

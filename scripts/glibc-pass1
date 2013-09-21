@@ -37,6 +37,8 @@ rm -rf glibc-build
 mkdir -p glibc-build
 cd glibc-build
 
+sed -i 's/ot \$/ot:\n\ttouch $@\n$/' ../glibc-$GLIBC_VER/manual/Makefile
+
 CFLAGS="$CFLAGS -O2 -march=${TARGET%%-*}" \
 ../glibc-$GLIBC_VER/configure \
   --without-cvs \
