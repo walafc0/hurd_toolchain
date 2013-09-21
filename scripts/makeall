@@ -3,6 +3,8 @@
 source ./scripts/prepare
 source ./scripts/pkgver
 
+source ./scripts/get-sources
+
 #source ./scripts/cross-binutils
 #source ./scripts/cross-gcc-pass1
 #source ./scripts/gnumach-headers

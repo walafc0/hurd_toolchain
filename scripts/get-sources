@@ -31,7 +31,7 @@ wget -nc http://ftp.gnu.org/gnu/coreutils/coreutils-$COREUTILS_VER.tar.gz
 wget -nc http://ftp.gnu.org/gnu/diffutils/diffutils-$DIFFUTILS_VER.tar.gz
 
 # findutils
-wget -nc http://ftp.gnu.org/gnu/findutils/findutils-$FINDUTILS_VER.tar.gz
+wget -nc http://alpha.gnu.org/gnu/findutils/findutils-$FINDUTILS_VER.tar.gz
 
 # file
 wget -nc ftp://ftp.astron.com/pub/file/file-$FILE_VER.tar.gz
@@ -95,10 +95,10 @@ wget -nc http://ftp.gnu.org/gnu/tar/tar-$TAR_VER.tar.bz2
 wget -nc http://ftp.gnu.org/gnu/texinfo/texinfo-$TEXINFO_VER.tar.gz
 
 # xz-utils
-wget -nc http://tukaani.org/xz/xz-$XZUTILS_VER.tar.gz
+wget -nc http://tukaani.org/xz/xz-$XZ_UTILS_VER.tar.gz
 
 # zlib
-wget -nc http://www.zlib.net/zlib-$ZLIB_VER.tar.gz
+wget -nc http://pkgs.fedoraproject.org/repo/pkgs/zlib/zlib-$ZLIB_VER.tar.bz2
 
 # gnumach-git
 if [ -d $SOURCE_DIR/gnumach ] ; then
