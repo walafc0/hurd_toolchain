@@ -1,18 +1,17 @@
 #!/bin/bash
 
-cd $BUILD_DIR
-rm -rf $BUILD_DIR/mig
-cp -a $SOURCE_DIR/mig .
-cd $BUILD_DIR/mig
+cd $SOURCE_DIR/mig
+git pull origin
 autoreconf -vif
 
-rm -rf $BUILD_DIR/cross-mig-build
-mkdir -p $BUILD_DIR/cross-mig-build
-cd $BUILD_DIR/cross-mig-build
+rm -rf $BUILD_DIR/mig
+cp -a $SOURCE_DIR/mig $BUILD_DIR
+cd $BUILD_DIR/mig
 
-../mig/configure \
+
+$SOURCE_DIR/mig/configure \
   --target=$TARGET \
-  --prefix=$CROSS_DIR
+  --prefix=$INSTALL_DIR
 
 make all install
 

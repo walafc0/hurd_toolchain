@@ -1,26 +1,22 @@
 #!/bin/bash
 
-cd $BUILD_DIR
+cd $SOURCE_DIR
 rm -rf binutils-$BINUTILS_VER
-tar -xf $SOURCE_DIR/binutils-$BINUTILS_VER.tar.bz2
+tar -xf binutils-$BINUTILS_VER.tar.bz2
 
-rm -rf cross-binutils-build
-mkdir -p cross-binutils-build
-cd cross-binutils-build
+cd $BUILD_DIR
 
-export AR=$HOST-gcc-ar
+rm -rf binutils
+mkdir binutils
+cd binutils
 
-../binutils-$BINUTILS_VER/configure \
-  --prefix=$CROSS_DIR \
-  --host=$HOST \
+$SOURCE_DIR/binutils-$BINUTILS_VER/configure \
   --target=$TARGET \
+  --prefix=$CROSS_DIR \
   --with-sysroot=$HURD_DIR \
   --disable-nls \
   --disable-werror
 
-make all
-make install
-
-unset AR
+make MAKEINFO=true all install
 
 cd $ROOT

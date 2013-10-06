@@ -3,7 +3,7 @@
 source ./scripts/prepare
 source ./scripts/pkgver
 
-source ./scripts/get-sources
+#source ./scripts/get-sources
 
 source ./scripts/$1
 

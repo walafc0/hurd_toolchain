@@ -4,13 +4,14 @@ source ./scripts/pkgver
 
 cd $SOURCE_DIR
 
+# TODO
 # bash
-wget -nc http://ftp.gnu.org/gnu/bash/bash-$BASH_VER.tar.gz
-if [ $BASH_PATCHLEVEL -gt 000 ]; then
-  for p in $(seq -w 001 $BASH_PATCHLEVEL); do
-      wget -nc http://ftp.gnu.org/gnu/bash/bash-$BASH_VER-patches/bash${BASH_VER/.}-$p
-  done
-fi
+# wget -nc http://ftp.gnu.org/gnu/bash/bash-$BASH_VER.tar.gz
+# if [ $BASH_PATCHLEVEL -gt 000 ]; then
+#   for p in $(seq -w 001 $BASH_PATCHLEVEL); do
+#       wget -nc http://ftp.gnu.org/gnu/bash/bash-$BASH_VER-patches/bash${BASH_VER/.}-$p
+#   done
+# fi
 
 # binutils
 wget -nc http://ftp.gnu.org/gnu/binutils/binutils-$BINUTILS_VER.tar.bz2
@@ -49,9 +50,6 @@ wget -nc http://ftp.gnu.org/gnu/gcc/gcc-$GCC_VER/gcc-g++-$GCC_VER.tar.bz2
 # gettext
 wget -nc http://ftp.gnu.org/gnu/gettext/gettext-$GETTEXT_VER.tar.gz
 
-# glibc
-wget -nc http://ftp.gnu.org/gnu/glibc/glibc-$GLIBC_VER.tar.bz2
-
 # gmp
 wget -nc ftp://ftp.gnu.org/gnu/gmp/gmp-$GMP_VER.tar.bz2
   
@@ -69,6 +67,9 @@ wget -nc http://ftp.gnu.org/gnu/m4/m4-$M4_VER.tar.gz
 
 # make
 wget -nc http://ftp.gnu.org/gnu/make/make-$MAKE_VER.tar.bz2
+
+#mpc
+wget -nc http://ftp.gnu.org/gnu/mpc/mpc-$MPC_VER.tar.gz
 
 # mpfr
 wget -nc http://mpfr.loria.fr/mpfr-current/mpfr-$MPFR_VER.tar.bz2
@@ -100,36 +101,62 @@ wget -nc http://tukaani.org/xz/xz-$XZ_UTILS_VER.tar.gz
 # zlib
 wget -nc http://pkgs.fedoraproject.org/repo/pkgs/zlib/zlib-$ZLIB_VER.tar.bz2
 
-# gnumach-git
-if [ -d $SOURCE_DIR/gnumach ] ; then
-  cd $SOURCE_DIR/gnumach && git pull origin
-else
-  cd $SOURCE_DIR
-  git clone git://git.sv.gnu.org/hurd/gnumach.git
-fi
 
-# hurd-git
-if [ -d $SOURCE_DIR/hurd ] ; then
-  cd $SOURCE_DIR/hurd && git pull origin
-else
-  cd $SOURCE_DIR
-  git clone git://git.sv.gnu.org/hurd/hurd.git
-fi
+GIT_ROOT=git://git.sv.gnu.org/hurd
 
-# libpthread-git
-if [ -d $SOURCE_DIR/libpthread ] ; then
-  cd $SOURCE_DIR/libpthread && git pull origin
-else
-  cd $SOURCE_DIR
-  git clone git://git.sv.gnu.org/hurd/libpthread.git
-fi
+for pkg in glibc gnumach mig hurd; do
+  if [ -d $SOURCE_DIR/$pkg ]; then
+    cd $SOURCE_DIR/$pkg && git pull origin
+  else
+    cd $SOURCE_DIR && git clone $GIT_ROOT/$pkg.git
+  fi
+done
 
-# mig-git
-if [ -d $SOURCE_DIR/mig ] ; then
-  cd $SOURCE_DIR/mig && git pull origin
+cd $SOURCE_DIR/hurd
+if [ -d libpthread ]; then
+  cd libpthread && git pull origin
 else
-  cd $SOURCE_DIR
-  git clone git://git.sv.gnu.org/hurd/mig.git
+  git clone $GIT_ROOT/libpthread.git
 fi
 
 cd $ROOT
+
+# gnumach-git
+# if [ -d $SOURCE_DIR/gnumach ] ; then
+#   cd $SOURCE_DIR/gnumach && git pull origin
+# else
+#   cd $SOURCE_DIR
+#   git clone git://git.sv.gnu.org/hurd/gnumach.git
+# fi
+
+# hurd-git
+# if [ -d $SOURCE_DIR/hurd ] ; then
+#   cd $SOURCE_DIR/hurd && git pull origin
+# else
+#   cd $SOURCE_DIR
+#   git clone git://git.sv.gnu.org/hurd/hurd.git
+# fi
+
+# glibc-git
+# if [ -d $SOURCE_DIR/glibc ]; then
+#   cd $SOURCE_DIR/glibc && git pull origin
+# else
+#   cd $SOURCE_DIR
+#   git clone git://git.sv.gnu.org/hurd/glibc.git
+# fi
+
+# libpthread-git
+# if [ -d $SOURCE_DIR/libpthread ] ; then
+#   cd $SOURCE_DIR/libpthread && git pull origin
+# else
+#   cd $SOURCE_DIR
+#   git clone git://git.sv.gnu.org/hurd/libpthread.git
+# fi
+
+# mig-git
+# if [ -d $SOURCE_DIR/mig ] ; then
+#   cd $SOURCE_DIR/mig && git pull origin
+# else
+#   cd $SOURCE_DIR
+#   git clone git://git.sv.gnu.org/hurd/mig.git
+# fi

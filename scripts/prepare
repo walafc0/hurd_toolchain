@@ -1,28 +1,33 @@
 #!/bin/bash
 
 ROOT=~/workspace/archhurd/hurd_toolchain
-HOST=x86_64-unknown-linux-gnu
-TARGET=i586-pc-gnu
+HOST=i686-pc-gnu
+TARGET=i686-pc-gnu
 
 # clear system variables
 export LC_ALL=C
 unset CC CXX AR AS RANLIB LD STRIP
-unset ASFLAGS CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
-export CFLAGS="-O2 -pipe"  # -march=${TARGET%%-*} will be added for cross compiled code
+unset ASFLAGS CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MAKEFLAGS
+export CFLAGS="-O2 -pipe"
 
 # prepare directories
+mkdir -p $ROOT
 export SOURCE_DIR=$ROOT/source
 export BUILD_DIR=$ROOT/build
-export CROSS_DIR=$ROOT/cross
-export HURD_DIR=$ROOT/hurd
-mkdir -p $SOURCE_DIR $BUILD_DIR $CROSS_DIR $HURD_DIR
-mkdir -p $CROSS_DIR/{bin,$TARGET}
-export PATH=$CROSS_DIR/bin:$PATH
+export INSTALL_DIR=$ROOT/install
 
-# prepare hurd layout
-cd $HURD_DIR
+mkdir -p $SOURCE_DIR $BUILD_DIR $INSTALL_DIR $INSTALL_DIR/{bin,$TARGET}
+
+export PATH=$INSTALL_DIR/bin:$PATH
+export SYS_ROOT=$INSTALL_DIR/sys_root
+
+cd $SYS_ROOT
 ln -sf . usr &>/dev/null
-mkdir -p $HURD_DIR/{include,lib}
-ln -sfn $HURD_DIR/{include,lib} $CROSS_DIR/$TARGET/
+mkdir -p $SYS_ROOT/{include,lib}
+ln -sfn $SYS_ROOT/{include,lib} $INSTALL_DIR/$TARGET/
+
+# TO REMOVE
+export CROSS_DIR=$INSTALL_DIR
+export HURD_DIR=$SYS_ROOT
 
 cd $ROOT

@@ -1,20 +1,18 @@
 #!/bin/bash
 
-cd $BUILD_DIR
-rm -rf $BUILD_DIR/gnumach
-cp -a $SOURCE_DIR/gnumach .
-cd $BUILD_DIR/gnumach
+cd $SOURCE_DIR/gnumach
+git pull origin
 autoreconf -vif
 
-rm -rf $BUILD_DIR/gnumach-headers-build
-mkdir -p $BUILD_DIR/gnumach-headers-build
-cd $BUILD_DIR/gnumach-headers-build
-  
+rm -rf $BUILD_DIR/gnumach
+cp -a $SOURCE_DIR/gnumach $BUILD_DIR
+cd $BUILD_DIR/gnumach
+
 CC=gcc \
-../gnumach/configure \
+$SOURCE_DIR/gnumach/configure \
   --host=$TARGET \
   --prefix=
   
-make DESTDIR=$HURD_DIR install-data
+make DESTDIR=$SYS_ROOT install-data
 
 cd $ROOT

@@ -1,28 +1,31 @@
 #!/bin/bash
 
-cd $BUILD_DIR
-rm -rf $BUILD_DIR/hurd
-cp -a $SOURCE_DIR/hurd .
-cd $BUILD_DIR/hurd
-patch -p1 < $SOURCE_DIR/patches/hurd/tls_support.patch
-cp -a $SOURCE_DIR/libpthread .
-cd libpthread
-patch -p1 < $SOURCE_DIR/patches/libpthread/tls_support.patch
-patch -p1 < $SOURCE_DIR/patches/libpthread/libpthread_fix.patch
-cd ..
+cd $SOURCE_DIR/hurd
+git pull origin
 autoreconf -vif
 
-rm -rf $BUILD_DIR/hurd-headers-build
-mkdir -p $BUILD_DIR/hurd-headers-build
-cd $BUILD_DIR/hurd-headers-build
+rm -rf $BUILD_DIR/hurd
+cp -a $SOURCE_DIR/hurd $BUILD_DIR
+
+cd $BUILD_DIR/hurd
+# TODO
+# patch -p1 < $SOURCE_DIR/patches/hurd/tls_support.patch
+# cp -a $SOURCE_DIR/libpthread .
+
+# TODO
+# cd libpthread
+# patch -p1 < $SOURCE_DIR/patches/libpthread/tls_support.patch
+# patch -p1 < $SOURCE_DIR/patches/libpthread/libpthread_fix.patch
+
+# cd ..
 
 CC=gcc \
-../hurd/configure \
+$SOURCE_DIR/hurd/configure \
   --host=$TARGET \
   --prefix= \
   --disable-profile
   
-make prefix=$HURD_DIR no_deps=t install-headers
+make prefix=$SYS_ROOT no_deps=t install-headers
   
 # prepare for libpthread build
 rm config.status
