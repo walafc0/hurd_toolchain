@@ -3,8 +3,8 @@
 cd $SOURCE_DIR/glibc
 git pull origin
 # fix for binutils>=2.20
-sed -iv 's#2.1\[3-9\]\*#2.2\[0-9\]\*#' configure
-sed -iv 's/ot \$/ot:\n\ttouch $@\n$/' manual/Makefile
+sed -i 's#2.1\[3-9\]\*#2.2\[0-9\]\*#' configure
+sed -i 's/ot \$/ot:\n\ttouch $@\n$/' manual/Makefile
 
 rm -rf $BUILD_DIR/glibc
 mkdir -p $BUILD_DIR/glibc

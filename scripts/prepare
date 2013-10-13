@@ -16,7 +16,7 @@ export SOURCE_DIR=$ROOT/source
 export BUILD_DIR=$ROOT/build
 export INSTALL_DIR=$ROOT/install
 
-mkdir -p $SOURCE_DIR $BUILD_DIR $INSTALL_DIR $INSTALL_DIR/{bin,$TARGET}
+mkdir -p $SOURCE_DIR $BUILD_DIR $INSTALL_DIR $INSTALL_DIR/{bin,$TARGET,sys_root}
 
 export PATH=$INSTALL_DIR/bin:$PATH
 export SYS_ROOT=$INSTALL_DIR/sys_root
