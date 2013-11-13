@@ -103,6 +103,8 @@ wget -nc http://pkgs.fedoraproject.org/repo/pkgs/zlib/zlib-$ZLIB_VER.tar.bz2
 
 
 GIT_ROOT=git://git.sv.gnu.org/hurd
+# Use http method (more generic)
+GIT_ROOT=http://git.savannah.gnu.org/r/hurd
 
 for pkg in glibc gnumach mig hurd; do
   if [ -d $SOURCE_DIR/$pkg ]; then

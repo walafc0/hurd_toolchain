@@ -5,7 +5,11 @@ source ./scripts/pkgver
 
 #source ./scripts/get-sources
 
-source ./scripts/$1
+for f in $@
+do
+  source ./scripts/$f
+done
+
 
 #source ./scripts/cross-binutils
 #source ./scripts/cross-gcc-pass1
