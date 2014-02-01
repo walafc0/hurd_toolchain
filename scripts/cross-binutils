@@ -12,7 +12,7 @@ cd binutils
 
 $SOURCE_DIR/binutils-$BINUTILS_VER/configure \
   --target=$TARGET \
-  --prefix=$CROSS_DIR \
+  --prefix=$INSTALL_DIR \
   --with-sysroot=$HURD_DIR \
   --disable-nls \
   --disable-werror

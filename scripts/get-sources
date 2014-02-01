@@ -62,14 +62,23 @@ wget -nc ftp://alpha.gnu.org/gnu/grub/grub-$GRUB_VER.tar.gz
 # gzip
 wget -nc ftp://ftp.gnu.org/pub/gnu/gzip/gzip-$GZIP_VER.tar.gz
 
+# hurd
+wget -nc http://git.savannah.gnu.org/cgit/hurd/hurd.git/snapshot/hurd-$HURD_VER.tar.gz
+
 # m4
 wget -nc http://ftp.gnu.org/gnu/m4/m4-$M4_VER.tar.gz
+
+# mach
+wget -nc http://git.savannah.gnu.org/cgit/hurd/gnumach.git/snapshot/gnumach-$MACH_VER.tar.gz
 
 # make
 wget -nc http://ftp.gnu.org/gnu/make/make-$MAKE_VER.tar.bz2
 
-#mpc
+# mpc
 wget -nc http://ftp.gnu.org/gnu/mpc/mpc-$MPC_VER.tar.gz
+
+# mig
+wget -nc http://git.savannah.gnu.org/cgit/hurd/mig.git/snapshot/mig-$MIG_VER.tar.gz
 
 # mpfr
 wget -nc http://mpfr.loria.fr/mpfr-current/mpfr-$MPFR_VER.tar.bz2
@@ -84,7 +93,7 @@ wget -nc ftp://ftp.gnu.org/pub/gnu/ncurses/ncurses-$NCURSES_VER.tar.gz
 wget -nc http://ftp.gnu.org/gnu/patch/patch-$PATCH_VER.tar.gz
 
 # ppl
-wget -nc http://www.cs.unipr.it/ppl/Download/ftp/releases/$PPL_VER/ppl-$PPL_VER.tar.gz
+# wget -nc http://www.cs.unipr.it/ppl/Download/ftp/releases/$PPL_VER/ppl-$PPL_VER.tar.gz
 
 # sed
 wget -nc ftp://ftp.gnu.org/gnu/sed/sed-$SED_VER.tar.bz2
@@ -102,11 +111,10 @@ wget -nc http://tukaani.org/xz/xz-$XZ_UTILS_VER.tar.gz
 wget -nc http://pkgs.fedoraproject.org/repo/pkgs/zlib/zlib-$ZLIB_VER.tar.bz2
 
 
-GIT_ROOT=git://git.sv.gnu.org/hurd
 # Use http method (more generic)
 GIT_ROOT=http://git.savannah.gnu.org/r/hurd
 
-for pkg in glibc gnumach mig hurd; do
+for pkg in glibc do
   if [ -d $SOURCE_DIR/$pkg ]; then
     cd $SOURCE_DIR/$pkg && git pull origin
   else
@@ -114,7 +122,9 @@ for pkg in glibc gnumach mig hurd; do
   fi
 done
 
-cd $SOURCE_DIR/hurd
+cd $SOURCE_DIR
+tar -xf hurd-$HURD_VER.tar.gz
+cd $SOURCE_DIR/hurd-$HURD_VER
 if [ -d libpthread ]; then
   cd libpthread && git pull origin
 else
@@ -122,43 +132,3 @@ else
 fi
 
 cd $ROOT
-
-# gnumach-git
-# if [ -d $SOURCE_DIR/gnumach ] ; then
-#   cd $SOURCE_DIR/gnumach && git pull origin
-# else
-#   cd $SOURCE_DIR
-#   git clone git://git.sv.gnu.org/hurd/gnumach.git
-# fi
-
-# hurd-git
-# if [ -d $SOURCE_DIR/hurd ] ; then
-#   cd $SOURCE_DIR/hurd && git pull origin
-# else
-#   cd $SOURCE_DIR
-#   git clone git://git.sv.gnu.org/hurd/hurd.git
-# fi
-
-# glibc-git
-# if [ -d $SOURCE_DIR/glibc ]; then
-#   cd $SOURCE_DIR/glibc && git pull origin
-# else
-#   cd $SOURCE_DIR
-#   git clone git://git.sv.gnu.org/hurd/glibc.git
-# fi
-
-# libpthread-git
-# if [ -d $SOURCE_DIR/libpthread ] ; then
-#   cd $SOURCE_DIR/libpthread && git pull origin
-# else
-#   cd $SOURCE_DIR
-#   git clone git://git.sv.gnu.org/hurd/libpthread.git
-# fi
-
-# mig-git
-# if [ -d $SOURCE_DIR/mig ] ; then
-#   cd $SOURCE_DIR/mig && git pull origin
-# else
-#   cd $SOURCE_DIR
-#   git clone git://git.sv.gnu.org/hurd/mig.git
-# fi

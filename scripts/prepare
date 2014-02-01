@@ -3,6 +3,7 @@
 ROOT=~/workspace/archhurd/hurd_toolchain
 HOST=i686-pc-gnu
 TARGET=i686-pc-gnu
+export ARCH=$(uname -m)
 
 # clear system variables
 export LC_ALL=C
@@ -27,7 +28,6 @@ mkdir -p $SYS_ROOT/{include,lib}
 ln -sfn $SYS_ROOT/{include,lib} $INSTALL_DIR/$TARGET/
 
 # TO REMOVE
-export CROSS_DIR=$INSTALL_DIR
 export HURD_DIR=$SYS_ROOT
 
 cd $ROOT

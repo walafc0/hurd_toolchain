@@ -6,7 +6,7 @@ cd $BUILD_DIR/cross-gcc-build
 
 ../gcc-$GCC_VER/configure \
   --target=$TARGET \
-  --prefix=$CROSS_DIR \
+  --prefix=$INSTALL_DIR \
   --with-sysroot=$HURD_DIR \
   --disable-nls \
   --enable-threads=posix \
@@ -15,7 +15,7 @@ cd $BUILD_DIR/cross-gcc-build
 make all
 
 # clean up files installed in pass 1
-rm -f $HURD_DIR/lib/libgcc_eh.a $CROSS_DIR/lib/gcc/$TARGET/$GCC_VER/{libgcc.a,libgcov.a}
+rm -f $HURD_DIR/lib/libgcc_eh.a $INSTALL_DIR/lib/gcc/$TARGET/$GCC_VER/{libgcc.a,libgcov.a}
 
 make install
 
