@@ -14,7 +14,7 @@ cd $SOURCE_DIR
 # fi
 
 # binutils
-wget -nc http://ftp.gnu.org/gnu/binutils/binutils-$BINUTILS_VER.tar.bz2
+wget -nc http://ftp.gnu.org/gnu/binutils/binutils-$BINUTILS_VER.tar.gz
 
 # bison
 wget -nc http://ftp.gnu.org/gnu/bison/bison-$BISON_VER.tar.bz2
@@ -114,7 +114,7 @@ wget -nc http://pkgs.fedoraproject.org/repo/pkgs/zlib/zlib-$ZLIB_VER.tar.bz2
 # Use http method (more generic)
 GIT_ROOT=http://git.savannah.gnu.org/r/hurd
 
-for pkg in glibc do
+for pkg in glibc; do
   if [ -d $SOURCE_DIR/$pkg ]; then
     cd $SOURCE_DIR/$pkg && git pull origin
   else

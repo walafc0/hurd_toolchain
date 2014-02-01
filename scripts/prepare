@@ -1,7 +1,7 @@
 #!/bin/bash
 
-ROOT=~/workspace/archhurd/hurd_toolchain
-HOST=i686-pc-gnu
+ROOT=~/hurd_toolchain
+HOST=i686-pc-linux-gnu
 TARGET=i686-pc-gnu
 export ARCH=$(uname -m)
 

@@ -8,9 +8,9 @@ source ./scripts/pkgver
 for f in $@
 do
   if [ "$ARCH" = "x86_64" ]; then
-    linux32 source ./scripts/$f
+    linux32 source ./scripts/$f 2>&1 | tee $ROOT/logs/$f-$(date +%y%m%d-%H%M%S).log
   else
-    source ./scripts/$f
+    source ./scripts/$f 2>&1 | tee $ROOT/logs/$f-$(date +%y%m%d-%H%M%S).log
   fi
 done
 
