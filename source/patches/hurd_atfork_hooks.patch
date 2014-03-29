@@ -1,0 +1,20 @@
+diff --git a/Makerules b/Makerules
+index fe967ad..f1f785a 100644
+--- a/Makerules
++++ b/Makerules
+@@ -509,6 +509,15 @@ $(common-objpfx)shlib.lds: $(common-objpfx)config.make $(..)Makerules
+   	   PROVIDE(__start__hurd_fork_prepare_hook = .);\
+ 	   					    _hurd_fork_prepare_hook : { *(_hurd_fork_prepare_hook) }\
+ 						    			     PROVIDE(__stop__hurd_fork_prepare_hook = .);\
++                 PROVIDE(__start__hurd_atfork_prepare_hook = .);\
++                 _hurd_atfork_prepare_hook : { *(_hurd_atfork_prepare_hook) }\
++                 PROVIDE(__stop__hurd_atfork_prepare_hook = .);\
++                 PROVIDE(__start__hurd_atfork_child_hook = .);\
++                 _hurd_atfork_child_hook : { *(_hurd_atfork_child_hook) }\
++                 PROVIDE(__stop__hurd_atfork_child_hook = .);\
++                 PROVIDE(__start__hurd_atfork_parent_hook = .);\
++                 _hurd_atfork_parent_hook : { *(_hurd_atfork_parent_hook) }\
++                 PROVIDE(__stop__hurd_atfork_parent_hook = .);\
+ 		  					   PROVIDE(__start__hurd_fork_setup_hook = .);\
+ 							   					  _hurd_fork_setup_hook : { *(_hurd_fork_setup_hook) }\
+ 												  			 PROVIDE(__stop__hurd_fork_setup_hook = .);\
