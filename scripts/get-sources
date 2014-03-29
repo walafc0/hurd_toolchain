@@ -61,9 +61,10 @@ if [ ! -d $SOURCE_DIR/hurd-$HURD_VER ]; then
   tar -xf hurd-$HURD_VER.tar.gz
   cd $SOURCE_DIR/hurd-$HURD_VER
   if [ -d libpthread ]; then
-      cd libpthread && git pull origin
+      cd libpthread && git pull
   else
       git clone $GIT_ROOT/libpthread.git
+      cd libpthread
       git checkout tschwinge/Peter_Herbolzheimer
   fi
 fi
