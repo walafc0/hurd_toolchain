@@ -2,21 +2,22 @@
 
 cd $SOURCE_DIR
 rm -rf binutils-$BINUTILS_VER
-tar -xf binutils-$BINUTILS_VER.tar.bz2
+tar -xf binutils-$BINUTILS_VER.tar.*
 
-cd $BUILD_DIR
+rm -rf $BUILD_DIR/binutils
+mkdir  $BUILD_DIR/binutils
+cd $BUILD_DIR/binutils
 
-rm -rf binutils
-mkdir binutils
-cd binutils
+unset MAKEFLAGS
 
 $SOURCE_DIR/binutils-$BINUTILS_VER/configure \
   --target=$TARGET \
   --prefix=$INSTALL_DIR \
   --with-sysroot=$HURD_DIR \
   --disable-nls \
-  --disable-werror
+  --disable-werror 
 
 make MAKEINFO=true all install
 
+export MAKEFLAGS="-j 48"
 cd $ROOT

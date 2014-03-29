@@ -1,16 +1,14 @@
 #! /bin/bash
 
-# Note: using source and build directories from pass1
-
-cd $BUILD_DIR/glibc-build
+cd $BUILD_DIR/glibc
 
 CFLAGS="$CFLAGS -O2 -march=${TARGET%%-*}" \
-../glibc-$GLIBC_VER/configure \
-  --without-cvs \
+$SOURCE_DIR/glibc/configure \
   --build=$HOST \
   --host=$TARGET \
   --prefix= \
   --with-headers=$HURD_DIR/include \
+  --without-cvs \
   --disable-profile
 
 make all

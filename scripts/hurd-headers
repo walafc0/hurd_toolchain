@@ -1,33 +1,26 @@
 #!/bin/bash
 
-cd $SOURCE_DIR/hurd
-git pull origin
+cd $SOURCE_DIR/hurd-$HURD_VER
 autoreconf -vif
 
 rm -rf $BUILD_DIR/hurd
-cp -a $SOURCE_DIR/hurd $BUILD_DIR
-
+mkdir -p $BUILD_DIR/hurd
 cd $BUILD_DIR/hurd
-# TODO
-# patch -p1 < $SOURCE_DIR/patches/hurd/tls_support.patch
-# cp -a $SOURCE_DIR/libpthread .
 
-# TODO
-# cd libpthread
-# patch -p1 < $SOURCE_DIR/patches/libpthread/tls_support.patch
-# patch -p1 < $SOURCE_DIR/patches/libpthread/libpthread_fix.patch
-
-# cd ..
-
+unset MAKEFLAGS
 CC=gcc \
-$SOURCE_DIR/hurd/configure \
+$SOURCE_DIR/hurd-$HURD_VER/configure \
   --host=$TARGET \
   --prefix= \
-  --disable-profile
+  --disable-profile \
+  --without-parted
   
-make prefix=$SYS_ROOT no_deps=t install-headers
-  
+make prefix=$HURD_DIR no_deps=t install-headers
+make -C libpthread prefix=$HURD_DIR no_deps=t install-headers
+
+
 # prepare for libpthread build
 rm config.status
+export MAKEFLAGS="-j 48"
 
 cd $ROOT

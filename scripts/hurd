@@ -1,25 +1,26 @@
 #!/bin/bash
 
-cd $BUILD_DIR
-rm -rf $BUILD_DIR/hurd
-cp -a $SOURCE_DIR/hurd .
-cd $BUILD_DIR/hurd
-patch -p1 < $SOURCE_DIR/patches/hurd/tls_support.patch
-patch -p0 < $SOURCE_DIR/patches/hurd/pflocal.patch
-cp -a $SOURCE_DIR/libpthread .
-cd libpthread
-patch -p1 < $SOURCE_DIR/patches/libpthread/tls_support.patch
-cd ..
+cd $SOURCE_DIR/hurd-$HURD_VER
 autoreconf -vif
 
-rm -rf $BUILD_DIR/hurd-build
-mkdir -p $BUILD_DIR/hurd-build
-cd $BUILD_DIR/hurd-build
+cd $BUILD_DIR
+rm -rf $BUILD_DIR/hurd
+mkdir  $BUILD_DIR/hurd
+cd $BUILD_DIR/hurd
 
-../hurd/configure \
+# patch -p1 < $SOURCE_DIR/patches/hurd/tls_support.patch
+# patch -p0 < $SOURCE_DIR/patches/hurd/pflocal.patch
+# cp -a $SOURCE_DIR/libpthread .
+# cd libpthread
+# patch -p1 < $SOURCE_DIR/patches/libpthread/tls_support.patch
+# cd ..
+# autoreconf -vif
+
+$SOURCE_DIR/hurd-$HURD_VER/configure \
   --host=$TARGET \
   --prefix= \
-  --disable-profile
+  --disable-profile \
+  --without-parted
 
 # Can not "make install" without initial "make": http://savannah.gnu.org/bugs/?20151
 # Could be an easy Arch Hurd first upstream bug fix!

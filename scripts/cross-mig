@@ -1,15 +1,15 @@
 #!/bin/bash
 
-cd $SOURCE_DIR/mig
-git pull origin
+cd $SOURCE_DIR
+tar -xf mig-$MIG_VER.tar.gz
+cd mig-$MIG_VER
 autoreconf -vif
 
 rm -rf $BUILD_DIR/mig
-cp -a $SOURCE_DIR/mig $BUILD_DIR
+mkdir  $BUILD_DIR/mig
 cd $BUILD_DIR/mig
 
-
-$SOURCE_DIR/mig/configure \
+$SOURCE_DIR/mig-$MIG_VER/configure \
   --target=$TARGET \
   --prefix=$INSTALL_DIR
 

@@ -3,29 +3,30 @@
 source ./scripts/prepare
 source ./scripts/pkgver
 
-#source ./scripts/get-sources
+# Part. I:
+# ========
 
+# if [ "$1" == "one" ]; then
+#     for f in cross-binutils cross-gcc-pass1 gnumach-headers cross-mig hurd-headers glibc-pass1 libpthread cross-gcc-pass2 glibc-pass2; do
+# 	source ./scripts/$f 2>&1 | tee $ROOT/logs/$f-$(date +%y%m%d-%H%M%S).log
+#     done
+# else
+#     for f in $@; do
+# 	source ./scripts/$f 2>&1 | tee $ROOT/logs/$f-$(date +%y%m%d-%H%M%S).log
+#     done
+# fi
+
+# Part. II:
+# =========
+source ./scripts/crossenv
 for f in $@
 do
-  if [ "$ARCH" = "x86_64" ]; then
-    linux32 source ./scripts/$f 2>&1 | tee $ROOT/logs/$f-$(date +%y%m%d-%H%M%S).log
-  else
     source ./scripts/$f 2>&1 | tee $ROOT/logs/$f-$(date +%y%m%d-%H%M%S).log
-  fi
 done
 
 
-#source ./scripts/cross-binutils
-#source ./scripts/cross-gcc-pass1
-#source ./scripts/gnumach-headers
-#source ./scripts/cross-mig
-#source ./scripts/hurd-headers
-#source ./scripts/glibc-pass1
-#source ./scripts/libpthread
-#source ./scripts/cross-gcc-pass2
-#source ./scripts/glibc-pass2
 
-#source ./scripts/crossenv
+
 #source ./scripts/gnumach
 #source ./scripts/hurd
 #source ./scripts/coreutils

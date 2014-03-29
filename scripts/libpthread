@@ -2,15 +2,18 @@
 
 # NOTE: using source prepare for hurd-headers
 
-cd $BUILD_DIR
+rm -rf $BUILD_DIR/libpthread
+mkdir -p $BUILD_DIR/libpthread
+cd $BUILD_DIR/libpthread
 
 CFLAGS="$CFLAGS -march=${TARGET%%-*}" \
-$SOURCE_DIR/hurd/configure \
+$SOURCE_DIR/hurd-$HURD_VER/configure \
   --host=$TARGET \
   --prefix= \
-  --disable-profile
+  --disable-profile \
+  --without-parted
 
 make libpthread
-make prefix=$SYS_ROOT libihash-install libpthread-install
+make prefix=$HURD_DIR libihash-install libpthread-install
 
 cd $ROOT

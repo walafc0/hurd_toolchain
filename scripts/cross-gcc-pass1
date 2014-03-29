@@ -1,44 +1,44 @@
 #! /bin/sh
 
 cd $SOURCE_DIR
-rm -rf gcc-$GCC_VER
+# rm -rf gcc-$GCC_VER
 
-tar -xf gcc-core-$GCC_VER.tar.bz2
-tar -xf gcc-g++-$GCC_VER.tar.bz2
+tar -xf gcc-$GCC_VER.tar.*
 
-tar -C gcc-$GCC_VER -xf mpfr-$MPFR_VER.tar.bz2
-tar -C gcc-$GCC_VER -xf gmp-$GMP_VER.tar.bz2
-tar -C gcc-$GCC_VER -xzf mpc-$MPC_VER.tar.gz
+tar -C gcc-$GCC_VER -xf mpfr-$MPFR_VER.tar.*
+tar -C gcc-$GCC_VER -xf gmp-$GMP_VER.tar.*
+tar -C gcc-$GCC_VER -xf mpc-$MPC_VER.tar.*
 
 cd gcc-$GCC_VER
 mv mpfr-$MPFR_VER mpfr
 mv gmp-$GMP_VER gmp
 mv mpc-$MPC_VER mpc
 
-# TODO: patches
-# patch -p1 < $SOURCE_DIR/patches/gcc-$GCC_VER/pr41818.diff
-# patch -p2 < $SOURCE_DIR/patches/gcc-$GCC_VER/hurd-changes.diff
+rm -rf   $BUILD_DIR/gcc
+mkdir -p $BUILD_DIR/gcc
+cd $BUILD_DIR/gcc
 
-cd $BUILD_DIR
-rm -rf gcc
-mkdir -p gcc
-cd gcc
-
-# Avoid generation of some docs (otherwise you won't compile)
-# Needed for gcc 4.4.0 and gcc 4.4.3
-# sed -i 's/BUILD_INFO=info/BUILD_INFO=/' ../gcc-$GCC_VER/gcc/configure
 
 $SOURCE_DIR/gcc-$GCC_VER/configure \
   --target=$TARGET \
   --prefix=$INSTALL_DIR \
-  --with-sysroot=$SYS_ROOT \
+  --with-sysroot=$HURD_DIR \
+  --with-newlib \
+  --enable-languages=c,c++ \
+  --with-arch=i686 \
   --disable-nls \
   --disable-shared \
   --disable-threads \
+  --disable-decimal-float \
+  --disable-libatomic \
+  --disable-libgomp \
+  --disable-libitm \
+  --disable-libmudflap \
+  --disable-libquadmath \
+  --disable-libsanitizer \
+  --disable-libssp \
+  --disable-libstdc++-v3 \
   --without-headers \
-  --with-newlib \
-  --enable-languages=c \
-  --with-arch=i686 \
   --with-mpfr=$SOURCE_DIR/gcc-$GCC_VER/mpfr \
   --with-gmp=$SOURCE_DIR/gcc-$GCC_VER/gmp \
   --with-mpc=$SOURCE_DIR/gcc-$GCC_VER/mpc
@@ -47,7 +47,7 @@ make all-gcc all-target-libgcc
 make install-gcc install-target-libgcc
   
 # glibc tries to link to this
-echo '/* Empty.  */' > $SYS_ROOT/lib/libgcc_eh.a
+echo '/* Empty.  */' > $HURD_DIR/lib/libgcc_eh.a
 
 # prepare for pass 2
 rm -f config.status config.cache */config.cache */*/config.cache

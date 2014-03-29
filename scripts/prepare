@@ -1,33 +1,34 @@
 #!/bin/bash
 
 ROOT=~/hurd_toolchain
-HOST=i686-pc-linux-gnu
-TARGET=i686-pc-gnu
-export ARCH=$(uname -m)
 
-# clear system variables
-export LC_ALL=C
-unset CC CXX AR AS RANLIB LD STRIP
-unset ASFLAGS CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MAKEFLAGS
-export CFLAGS="-O2 -pipe"
-
-# prepare directories
-mkdir -p $ROOT
 export SOURCE_DIR=$ROOT/source
 export BUILD_DIR=$ROOT/build
 export INSTALL_DIR=$ROOT/install
+export HURD_DIR=$ROOT/hurd
 
-mkdir -p $SOURCE_DIR $BUILD_DIR $INSTALL_DIR $INSTALL_DIR/{bin,$TARGET,sys_root}
+HOST=i686-pc-linux-gnu
+TARGET=i686-pc-gnu
+
+# prepare directories
+mkdir -p $SOURCE_DIR $BUILD_DIR $INSTALL_DIR $INSTALL_DIR/{bin,$TARGET} $HURD_DIR
 
 export PATH=$INSTALL_DIR/bin:$PATH
-export SYS_ROOT=$INSTALL_DIR/sys_root
 
-cd $SYS_ROOT
+cd $HURD_DIR
 ln -sf . usr &>/dev/null
-mkdir -p $SYS_ROOT/{include,lib}
-ln -sfn $SYS_ROOT/{include,lib} $INSTALL_DIR/$TARGET/
+mkdir -p include lib
+ln -sfn $HURD_DIR/{include,lib} $INSTALL_DIR/$TARGET/
 
-# TO REMOVE
-export HURD_DIR=$SYS_ROOT
+
+
+# clear system variables
+export LC_ALL=C
+export CFLAGS="-O2 -pipe"
+unset CC CXX AR AS RANLIB LD STRIP ASFLAGS CPPFLAGS CXXFLAGS LXFLAGS MAKEFLAGS
+export MAKEFLAGS="-j 48"
+
+# Use git repo for glibc
+export GLIBC_GIT=1
 
 cd $ROOT

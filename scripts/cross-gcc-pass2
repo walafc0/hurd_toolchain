@@ -1,16 +1,30 @@
 #! /bin/sh
 
-# Note: using source and build directories from pass1
+cd $BUILD_DIR/gcc
 
-cd $BUILD_DIR/cross-gcc-build
-
-../gcc-$GCC_VER/configure \
+$SOURCE_DIR/gcc-$GCC_VER/configure \
   --target=$TARGET \
   --prefix=$INSTALL_DIR \
   --with-sysroot=$HURD_DIR \
+  --with-newlib \
+  --enable-languages=c,c++ \
+  --with-arch=i686 \
   --disable-nls \
-  --enable-threads=posix \
-  --enable-languages=c,c++
+  --disable-shared \
+  --disable-threads \
+  --disable-decimal-float \
+  --disable-libatomic \
+  --disable-libgomp \
+  --disable-libitm \
+  --disable-libmudflap \
+  --disable-libquadmath \
+  --disable-libsanitizer \
+  --disable-libssp \
+  --disable-libstdc++-v3 \
+  --without-headers \
+  --with-mpfr=$SOURCE_DIR/gcc-$GCC_VER/mpfr \
+  --with-gmp=$SOURCE_DIR/gcc-$GCC_VER/gmp \
+  --with-mpc=$SOURCE_DIR/gcc-$GCC_VER/mpc
 
 make all
 

@@ -1,27 +1,33 @@
 #! /bin/bash
 
 cd $SOURCE_DIR/glibc
-git pull origin
-# fix for binutils>=2.20
-sed -i 's#2.1\[3-9\]\*#2.2\[0-9\]\*#' configure
-sed -i 's/ot \$/ot:\n\ttouch $@\n$/' manual/Makefile
+git checkout tschwinge/Roger_Whittaker
 
-rm -rf $BUILD_DIR/glibc
+# Fix for make version being too new
+sed -i "s/^  ac_prog_version=\`\$MAKE.*$/  ac_prog_version=3.9/" configure
+
+# Fix the reference to pthread.h
+sed -i 's:#include_next.*:#include <pthread/pthread.h>:' include/pthread.h
+
+# Fix the missing hurd_atfork_prepare_hook error
+git apply $SOURCE_DIR/patches/glibc/hurd_atfork_hooks.patch
+
+rm -rf   $BUILD_DIR/glibc
 mkdir -p $BUILD_DIR/glibc
 cd $BUILD_DIR/glibc
 
 CFLAGS="$CFLAGS -O2 -march=${TARGET%%-*}" \
-$SOURCE_DIR/glibc/configure \
-  --build=$HOST \
-  --host=$TARGET \
-  --prefix= \
-  --with-headers=$SYS_ROOT/include \
-  --without-cvs \
-  --disable-profile
-  
+    $SOURCE_DIR/glibc/configure \
+    --build=$HOST \
+    --host=$TARGET \
+    --prefix= \
+    --with-headers=$HURD_DIR/include \
+    --without-cvs \
+    --disable-profile
+
 make all
-make install_root=$SYS_ROOT install
-ln -sf ld.so.1 $SYS_ROOT/lib/ld.so
+make install_root=$HURD_DIR install
+ln -sf ld.so.1 $HURD_DIR/lib/ld.so
   
 # prepare for pass 2
 rm -f $BUILD_DIR/glibc/config.status

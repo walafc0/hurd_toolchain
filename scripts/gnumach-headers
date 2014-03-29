@@ -1,18 +1,19 @@
 #!/bin/bash
 
-cd $SOURCE_DIR/gnumach
-git pull origin
+cd $SOURCE_DIR
+tar -xf gnumach-$MACH_VER.tar.gz
+cd gnumach-$MACH_VER
 autoreconf -vif
 
 rm -rf $BUILD_DIR/gnumach
-cp -a $SOURCE_DIR/gnumach $BUILD_DIR
+mkdir $BUILD_DIR/gnumach
 cd $BUILD_DIR/gnumach
 
 CC=gcc \
-$SOURCE_DIR/gnumach/configure \
+$SOURCE_DIR/gnumach-$MACH_VER/configure \
   --host=$TARGET \
-  --prefix=
+  --prefix= \
   
-make DESTDIR=$SYS_ROOT install-data
+make DESTDIR=$HURD_DIR install-data
 
 cd $ROOT

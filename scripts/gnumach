@@ -1,18 +1,14 @@
 #!/bin/bash
 
-# NOTE: using source from gnumach-headers with clean build directory
+cd $SOURCE_DIR/gnumach-$MACH_VER
+autoreconf -vif
 
 cd $BUILD_DIR
 rm -rf $BUILD_DIR/gnumach
-cp -a $SOURCE_DIR/gnumach .
+mkdir  $BUILD_DIR/gnumach
 cd $BUILD_DIR/gnumach
-autoreconf -vif
 
-rm -rf $BUILD_DIR/gnumach-build
-mkdir -p $BUILD_DIR/gnumach-build
-cd $BUILD_DIR/gnumach-build
-  
-../gnumach/configure \
+$SOURCE_DIR/gnumach-$MACH_VER/configure \
   --enable-kdb \
   --host=$TARGET \
   --prefix=
