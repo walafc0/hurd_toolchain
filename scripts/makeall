@@ -6,62 +6,12 @@ source ./scripts/pkgver
 # Part. I:
 # ========
 
-# if [ "$1" == "one" ]; then
-#     for f in cross-binutils cross-gcc-pass1 gnumach-headers cross-mig hurd-headers glibc-pass1 libpthread cross-gcc-pass2 glibc-pass2; do
-# 	source ./scripts/$f 2>&1 | tee $ROOT/logs/$f-$(date +%y%m%d-%H%M%S).log
-#     done
-# else
-#     for f in $@; do
-# 	source ./scripts/$f 2>&1 | tee $ROOT/logs/$f-$(date +%y%m%d-%H%M%S).log
-#     done
-# fi
-
-# Part. II:
-# =========
-source ./scripts/crossenv
-for f in $@
-do
-    source ./scripts/$f 2>&1 | tee $ROOT/logs/$f-$(date +%y%m%d-%H%M%S).log
-done
-
-
-
-
-#source ./scripts/gnumach
-#source ./scripts/hurd
-#source ./scripts/coreutils
-#source ./scripts/bash
-#source ./scripts/grub
-
-#source ./scripts/zlib
-#source ./scripts/binutils
-#source ./scripts/gmp
-#source ./scripts/mpfr
-#source ./scripts/ppl
-#source ./scripts/cloog-ppl
-#source ./scripts/gcc
-#source ./scripts/ncurses
-#source ./scripts/bison
-#source ./scripts/bzip2
-#source ./scripts/diffutils
-#source ./scripts/file
-#source ./scripts/findutils
-#source ./scripts/flex
-#source ./scripts/gawk
-#source ./scripts/gettext
-#source ./scripts/grep
-#source ./scripts/gzip
-#source ./scripts/m4
-#source ./scripts/make
-#source ./scripts/nano
-#source ./scripts/patch
-#source ./scripts/sed
-#source ./scripts/tar
-#source ./scripts/texinfo
-#source ./scripts/xz-utils
-#source ./scripts/fakeroot
-#source ./scripts/openssl
-#source ./scripts/libarchive
-#source ./scripts/libfetch
-#source ./scripts/pacman
-#source ./scripts/wget
+if [ "$1" == "all" ]; then
+    for f in get-sources cross-binutils cross-gcc-pass1 gnumach-headers cross-mig hurd-headers glibc-pass1 libpthread cross-gcc-pass2 glibc-pass2; do
+	source ./scripts/$f 2>&1 | tee $ROOT/logs/$f-$(date +%y%m%d-%H%M%S).log
+    done
+else
+    for f in $@; do
+	source ./scripts/$f 2>&1 | tee $ROOT/logs/$f-$(date +%y%m%d-%H%M%S).log
+    done
+fi
